@@ -5,5 +5,8 @@
 Пример:
 ./vcf2lada_mmc.py contacts.vcf book.csv
 
-Полученный файл book.csv необходимо скопировать в MMC в директорию: \StaticStore\Menu\LadaTools\
+Полученный файл book.csv необходимо скопировать в MMC в директорию:
+
+\StaticStore\Menu\LadaTools\
+
 После чего в телефонной книге MMC в NewMenu должны появиться контакты.
