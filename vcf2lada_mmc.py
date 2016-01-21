@@ -39,7 +39,7 @@ def get_users(file_name):
 if len(sys.argv) < 3:
 	print("Необходимо два параметра: входной файл vcf и выходной файл csv")
 	print("Пример:")
-	print("%s contacts.csv book.csv:" % sys.argv[0])
+	print("%s contacts.vcf book.csv:" % sys.argv[0])
 	print("Выход")
 	raise SystemExit(1)
 
