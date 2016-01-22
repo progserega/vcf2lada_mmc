@@ -26,6 +26,8 @@ def check_dubl(record1, record2):
 
 def pars_triplog(file_name):
 	num_in_lines=0
+	full_probeg=0
+	full_fuel=0
 	triplog=[]
 	for line in open(file_name):
 		num_in_lines+=1
@@ -55,10 +57,16 @@ def pars_triplog(file_name):
 					break
 			if time.mktime(triplog[index]["struct_time"])<time.mktime(record["struct_time"]):
 				triplog.insert(index,record)
+				full_probeg+=float(record["probeg"].replace(",","."))
+				full_fuel+=float(record["rashod_lit"].replace(",","."))
 				break
 		if len(triplog)==0:
 			triplog.append(record)
+			full_probeg+=float(record["probeg"].replace(",","."))
+			full_fuel+=float(record["rashod_lit"].replace(",","."))
 	print("num_in_lines=%d, triplog.len=%d"%(num_in_lines,len(triplog)))
+	print("Статистика:")
+	print("Полный пробег: %d км\nИзрасходованно топлива: %d л"%(full_probeg,full_fuel))
 	return triplog
 
 
