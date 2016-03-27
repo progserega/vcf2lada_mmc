@@ -29,12 +29,15 @@ def pars_triplog(file_name):
 	full_probeg=0
 	full_fuel=0
 	triplog=[]
+	skip=False
 	for line in open(file_name):
 		num_in_lines+=1
 		record={}
 		if DEBUG:
 			print("line: %s" % line)
 		if re.search(r'^[0-9].*', line) is None:
+			if DEBUG:
+				print("Skip line: %s" % line)
 			continue
 		data=line.split(';')
 		record["date"]=data[0]
@@ -49,18 +52,26 @@ def pars_triplog(file_name):
 		if DEBUG:
 			print("%s %s" % (record["date"],record["time"]))
 	    # ищем место, куда вставить по дате:
+		skip=False
 		for index in range(0,len(triplog)):
-#	print("index=%d"%index)
+			if DEBUG:
+				print("index=%d"%index)
 			if time.mktime(triplog[index]["struct_time"])==time.mktime(record["struct_time"]):
 				if check_dubl(triplog[index],record):
 					# пропуск дубля
+					skip=True
 					break
 			if time.mktime(triplog[index]["struct_time"])<time.mktime(record["struct_time"]):
+				if DEBUG:
+					print("insert line: %s" % line)
 				triplog.insert(index,record)
 				full_probeg+=float(record["probeg"].replace(",","."))
 				full_fuel+=float(record["rashod_lit"].replace(",","."))
+				skip=True
 				break
-		if len(triplog)==0:
+		if not skip:
+			if DEBUG:
+				print("append line: %s" % line)
 			triplog.append(record)
 			full_probeg+=float(record["probeg"].replace(",","."))
 			full_fuel+=float(record["rashod_lit"].replace(",","."))
